@@ -1,13 +1,31 @@
-function loadAllPosts (){
-    fetch('https://openapi.programming-hero.com/api/retro-forum/posts')
-    .then(res=>res.json())
-    .then(data=>displayAllPosts(data.posts))
+function loadAllPosts (category){
+    // if(category){
+    //     console.log('https://openapi.programming-hero.com/api/retro-forum/posts?category=`${category}`')
+        
+    // }
+    // else{
+    //     console.log("https://openapi.programming-hero.com/api/retro-forum/posts")
+    // }
+
+    const apiUrl = category 
+        ? `https://openapi.programming-hero.com/api/retro-forum/posts?category=${category}`
+        : "https://openapi.programming-hero.com/api/retro-forum/posts";
+
+    fetch(apiUrl)
+        .then(res => res.json())
+        .then(data => displayAllPosts(data.posts));
 }
 
 loadAllPosts()
 
+function handleSearchByCategory(){
+    const searchText = document.getElementById('searchPosts').value;
+    loadAllPosts(searchText);
+}
+
 function displayAllPosts(posts){
     // console.log(posts)
+    document.getElementById('post-container').innerHTML = ""
     const postContainer = document.getElementById('post-container');
     for (const post of posts){
         const div = document.createElement('div');
